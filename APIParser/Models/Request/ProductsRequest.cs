@@ -8,6 +8,7 @@ namespace APIParser.Models.Request
         [MinLength(3, ErrorMessage = "Min length must be bigger than 3")]
         [MaxLength(255, ErrorMessage = "Min length must be smaller than 255")]
         public string SearchPhrase { get; set; } = string.Empty;
+        //
 
      }
 }
