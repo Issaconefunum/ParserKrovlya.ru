@@ -8,7 +8,6 @@ var conf = new ConfigurationBuilder()
     .Build();
 
 Configurations.SetPropties(conf);
-Configurations.ParserSettings.
 // Add services to the container.
 
 builder.Services.AddControllers();
