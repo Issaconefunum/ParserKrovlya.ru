@@ -1,5 +1,14 @@
+using APIParser.ConfigurationManager;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var conf = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .Build();
+
+Configurations.SetPropties(conf);
+Configurations.ParserSettings.
 // Add services to the container.
 
 builder.Services.AddControllers();
