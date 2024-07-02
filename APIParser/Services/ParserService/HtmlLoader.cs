@@ -3,19 +3,15 @@ using System.Net;
 
 namespace APIParser.Services.ParserService
 {
-    internal class HtmlLoader
+    public static class HtmlLoader
     {
-        readonly HttpClient client;
-
-        public HtmlLoader(IParserSettings settings)
-        {
-            client = new HttpClient();
-        }
-        public async Task<string> GetSourceByPageId(string url, int id)
+        private static SocketsHttpHandler socketHandler = new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(2) };
+        private static HttpClient _httpClient = new HttpClient(socketHandler);
+        public static async Task<string> GetSourceByPageId(string url, int id)
         {
             var currentUrl = url.Replace("{CurrentId}", id.ToString());
-            var response = await client.GetAsync(currentUrl);
-            string source = null;
+            var response = await _httpClient.GetAsync(currentUrl);
+            string source = string.Empty;
 
             if (response != null && response.StatusCode == HttpStatusCode.OK)
             {

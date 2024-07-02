@@ -1,15 +1,16 @@
 ﻿using AngleSharp.Html.Parser;
+using APIParser.Models;
+using APIParser.ConfigurationManager;
+using AngleSharp;
 
 namespace APIParser.Services.ParserService
 {
     class ParserWorker<T> where T : class
     {
-        IParser<T> parser;
-        IParserSettings parserSettings;
-        HtmlLoader loader;
+        IParser parser;
 
         #region Properties 
-        public IParser<T> Parser
+        public IParser Parser
         {
             get
             {
@@ -20,19 +21,10 @@ namespace APIParser.Services.ParserService
                 parser = value;
             }
         }
-        public IParserSettings Settings
-        {
-            get { return parserSettings; }
-            set
-            {
-                parserSettings = value;
-                loader = new HtmlLoader(value);
-            }
-        }
 
         #endregion  
 
-        public ParserWorker(IParser<T> parser)
+        public ParserWorker(IParser parser)
         {
             this.parser = parser;
         }
@@ -40,17 +32,22 @@ namespace APIParser.Services.ParserService
         {
             this.parserSettings = parserSettings;
         }*/
-        private async void Start_Worker()
+        public async Task<List<KrovlyaCard>> GetProductsParse()
         {
-            for (int i = parserSettings.StartPoint; i <= parserSettings.EndPoint; i++)
+            var list = new List<KrovlyaCard>();
+            for (int i = Configurations.ParserSettings.StartPoint; i <= Configurations.ParserSettings.EndPoint; i++)
             {
-                var source = await loader.GetSourceByPageId(parserSettings.BaseUrl, i);
+                var source = await HtmlLoader.GetSourceByPageId(Configurations.ParserSettings.Url, i);
                 var domParser = new HtmlParser();
 
                 var document = await domParser.ParseDocumentAsync(source);
 
                 var result = parser.Parse(document);
+                list.AddRange(result);
+
             }
+            return list;
+
         }
     }
 }

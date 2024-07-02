@@ -1,9 +1,10 @@
 ﻿using AngleSharp.Html.Dom;
+using APIParser.Models;
 
 namespace APIParser.Services.ParserService
 {
-    internal interface IParser<T> where T : class
+    internal interface IParser
     {
-        T Parse(IHtmlDocument document);
+        List<KrovlyaCard> Parse(IHtmlDocument document);
     }
 }
