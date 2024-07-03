@@ -5,17 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 namespace APIParser.Controllers
 {
-    [Route("/HomeController/[action]")]
+    [Route("/api/Krovlya.ru/parse/[action]")]
     public class HomeController : Controller
     {
         [HttpPost]
-        public async Task<IActionResult> ParserResult()
+        public async Task<IActionResult> ResultOfAllData()
         {
-            ParserWorker<KrovlyaCard[]> parser = new ParserWorker<KrovlyaCard[]>(new KrovlyaParser());
+            ParserWorker<List<KrovlyaCard>> parser = new ParserWorker<List<KrovlyaCard>>(new KrovlyaParser());
             var content = await parser.GetProductsParse();
             return Ok(content);
         }
-        [HttpGet]
+        /*[HttpGet]
         public async Task SearchData()
         {
             string content = @"<form method='post'>
@@ -25,7 +25,7 @@ namespace APIParser.Controllers
             </form>";
             Response.ContentType = "text/html;charset=utf-8";
             await Response.WriteAsync(content);
-        }
+        }*/
         [HttpPost]
         public async Task<IActionResult> SearchData(string name)
         {

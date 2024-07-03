@@ -29,7 +29,7 @@ namespace APIParser.Services.ParserService.Core.Krovlya
         }
         public string DeleateExtraCharacters(string request)
         {
-            if (request == null) throw new InvalidOperationException("Data not found");
+            if (string.IsNullOrEmpty(request)) throw new InvalidOperationException("Data not found");
 
             string pattern = @"\s+";
             string replacement = " ";

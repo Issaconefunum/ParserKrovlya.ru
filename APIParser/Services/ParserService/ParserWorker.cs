@@ -2,6 +2,7 @@
 using APIParser.Models;
 using APIParser.ConfigurationManager;
 using AngleSharp;
+using AngleSharp.Html.Dom;
 
 namespace APIParser.Services.ParserService
 {
@@ -10,17 +11,7 @@ namespace APIParser.Services.ParserService
         IParser parser;
 
         #region Properties 
-        public IParser Parser
-        {
-            get
-            {
-                return parser;
-            }
-            set
-            {
-                parser = value;
-            }
-        }
+ 
 
         #endregion  
 
@@ -38,6 +29,7 @@ namespace APIParser.Services.ParserService
             for (int i = Configurations.ParserSettings.StartPoint; i <= Configurations.ParserSettings.EndPoint; i++)
             {
                 var source = await HtmlLoader.GetSourceByPageId(Configurations.ParserSettings.Url, i);
+                if (string.IsNullOrEmpty(source)) throw new InvalidOperationException("Data source not found");
                 var domParser = new HtmlParser();
 
                 var document = await domParser.ParseDocumentAsync(source);
