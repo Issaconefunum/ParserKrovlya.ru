@@ -1,5 +1,13 @@
+using APIParser.ConfigurationManager;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var conf = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .Build();
+
+Configurations.SetPropties(conf);
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -21,5 +29,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();
